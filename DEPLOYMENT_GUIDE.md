@@ -28,7 +28,7 @@ npm run lint
 
 1. **在GitHub上创建新仓库**
    - 访问 [GitHub](https://github.com/new)
-   - 创建名为 `pdcs-frontend` 的新仓库
+   - 创建名为 `pdcs-ui` 的新仓库
    - **不要**初始化README、.gitignore或LICENSE（我们已经有了）
 
 2. **运行部署脚本**
@@ -37,13 +37,13 @@ npm run lint
    chmod +x scripts/deploy-to-github.sh
    
    # 执行部署（替换为您的GitHub用户名）
-   ./scripts/deploy-to-github.sh your-username pdcs-frontend
+   ./scripts/deploy-to-github.sh your-username pdcs-ui
    ```
 
 3. **Windows用户手动部署**
    ```bash
    # 添加远程仓库
-   git remote add origin https://github.com/your-username/pdcs-frontend.git
+   git remote add origin https://github.com/your-username/pdcs-ui.git
    
    # 重命名主分支
    git branch -m master main
@@ -57,7 +57,7 @@ npm run lint
 
 ```bash
 # 1. 添加远程仓库
-git remote add origin https://github.com/your-username/pdcs-frontend.git
+git remote add origin https://github.com/your-username/pdcs-ui.git
 
 # 2. 推送主分支
 git push -u origin main
@@ -74,7 +74,7 @@ git push -u origin develop
    - 访问 [Vercel](https://vercel.com)
    - 使用GitHub账号登录
    - 点击 "New Project"
-   - 选择您的 `pdcs-frontend` 仓库
+   - 选择您的 `pdcs-ui` 仓库
 
 2. **配置项目**
    ```
@@ -148,8 +148,8 @@ netlify deploy --prod --dir=.next
 
 ```dockerfile
 # Dockerfile 已包含在项目中
-docker build -t pdcs-frontend .
-docker run -p 3000:3000 pdcs-frontend
+docker build -t pdcs-ui .
+docker run -p 3000:3000 pdcs-ui
 ```
 
 ### 3. 静态导出
@@ -226,8 +226,8 @@ npm run build
 ### 获取帮助
 
 - 📚 查看 [项目文档](./docs/)
-- 🐛 提交 [GitHub Issues](https://github.com/your-username/pdcs-frontend/issues)
-- 💬 参与 [GitHub Discussions](https://github.com/your-username/pdcs-frontend/discussions)
+- 🐛 提交 [GitHub Issues](https://github.com/fbsqual/pdcs-ui/issues)
+- 💬 参与 [GitHub Discussions](https://github.com/fbsqual/pdcs-ui/discussions)
 
 ## 🎉 部署完成
 
