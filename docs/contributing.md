@@ -1,63 +1,101 @@
-# 贡献指南
+# PDCS-Fronted-UI 贡献指南
 
-感谢您对 PDCS Frontend 项目的关注！我们欢迎所有形式的贡献，包括但不限于代码、文档、测试、问题报告和功能建议。
+欢迎为 PDCS-Fronted-UI 项目做出贡献！本指南将帮助您了解如何参与项目开发。
 
-## 🤝 如何贡献
+## 目录
 
-### 报告问题
+1. [开发环境设置](#开发环境设置)
+2. [代码规范](#代码规范)
+3. [提交规范](#提交规范)
+4. [Pull Request流程](#pull-request流程)
+5. [测试要求](#测试要求)
+6. [文档贡献](#文档贡献)
+7. [社区参与](#社区参与)
 
-如果您发现了 bug 或有功能建议，请：
+---
 
-1. 检查 [Issues](https://github.com/your-repo/issues) 确保问题尚未被报告
-2. 使用相应的 Issue 模板创建新的 Issue
-3. 提供详细的描述和重现步骤
-4. 如果可能，请提供截图或错误日志
+## 开发环境设置
 
-### 提交代码
+### 环境要求
 
-1. **Fork 项目**
-   ```bash
-   git clone https://github.com/your-username/pdcs-frontend.git
-   cd pdcs-frontend
-   ```
+- **Node.js**: >= 18.0.0
+- **npm**: >= 9.0.0 或 **yarn**: >= 1.22.0
+- **Git**: >= 2.30.0
 
-2. **创建功能分支**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+### 本地开发设置
 
-3. **安装依赖**
-   ```bash
-   npm install
-   ```
+```bash
+# 1. Fork项目到您的GitHub账户
 
-4. **进行开发**
-   - 遵循项目的代码规范
-   - 编写必要的测试
-   - 更新相关文档
+# 2. 克隆您的Fork
+git clone https://github.com/YOUR_USERNAME/PDCS-Fronted-UI.git
+cd PDCS-Fronted-UI
 
-5. **运行测试**
-   ```bash
-   npm run test
-   npm run lint
-   npm run type-check
-   ```
+# 3. 添加上游仓库
+git remote add upstream https://github.com/fbsqual/PDCS-Fronted-UI.git
 
-6. **提交更改**
-   ```bash
-   git add .
-   git commit -m "feat: add your feature description"
-   ```
+# 4. 安装依赖
+npm install
 
-7. **推送分支**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
+# 5. 启动开发服务器
+npm run dev
 
-8. **创建 Pull Request**
-   - 使用清晰的标题和描述
-   - 链接相关的 Issues
-   - 确保所有检查通过
+# 6. 运行测试
+npm test
+
+# 7. 检查代码质量
+npm run lint
+npm run type-check
+```
+
+### 开发工具配置
+
+推荐使用以下VSCode扩展：
+
+```json
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense"
+  ]
+}
+```
+
+---
+
+## 代码规范
+
+### TypeScript规范
+
+```typescript
+// ✅ 好的实践
+interface UserProps {
+  id: string
+  name: string
+  email?: string
+  isActive: boolean
+}
+
+function UserCard({ id, name, email, isActive }: UserProps) {
+  return (
+    <Card className={cn('user-card', { 'opacity-50': !isActive })}>
+      <CardHeader>
+        <CardTitle>{name}</CardTitle>
+        {email && <CardDescription>{email}</CardDescription>}
+      </CardHeader>
+    </Card>
+  )
+}
+
+// ❌ 避免的实践
+function BadComponent(props: any) {
+  return <div style={{color: 'red'}}>{props.data}</div>
+}
+```
 
 ## 📝 代码规范
 
