@@ -1,0 +1,309 @@
+name: 🚀 Release & Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version type to release'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      release_message:
+        description: 'Release message'
+        required: true
+        default: 'New release'
+
+env:
+  NODE_VERSION: '18'
+  REGISTRY_URL: 'https://registry.npmjs.org'
+
+jobs:
+  # 版本管理和标签创建
+  version-management:
+    name: 📦 Version Management
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+      tag_name: ${{ steps.version.outputs.tag_name }}
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔧 Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: 📦 Update version and create tag
+        id: version
+        run: |
+          # 使用版本管理工具更新版本
+          NEW_VERSION=$(node scripts/version-manager.js update ${{ github.event.inputs.version_type }} "${{ github.event.inputs.release_message }}")
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "tag_name=v$NEW_VERSION" >> $GITHUB_OUTPUT
+          
+          # 提交更改
+          git add .
+          git commit -m "chore: release $NEW_VERSION"
+          git tag "v$NEW_VERSION"
+          git push origin main
+          git push origin "v$NEW_VERSION"
+
+  # 构建和测试
+  build-and-test:
+    name: 🏗️ Build & Test
+    runs-on: ubuntu-latest
+    needs: version-management
+    if: always() && !cancelled()
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.version-management.outputs.tag_name || github.ref }}
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Run quality checks
+        run: |
+          npm run lint
+          npm run type-check
+
+      - name: 🧪 Run tests
+        run: npm run test:coverage
+
+      - name: 🏗️ Build application
+        run: npm run build
+
+      - name: 📦 Build component library
+        run: |
+          cd lib
+          npm ci
+          npm run build
+
+      - name: 💾 Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            .next
+            lib/dist
+          retention-days: 7
+
+  # 发布到NPM
+  publish-npm:
+    name: 📦 Publish to NPM
+    runs-on: ubuntu-latest
+    needs: [version-management, build-and-test]
+    if: always() && !cancelled() && needs.build-and-test.result == 'success'
+    environment: npm-publish
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.version-management.outputs.tag_name || github.ref }}
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: ${{ env.REGISTRY_URL }}
+          cache: 'npm'
+
+      - name: 📥 Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+
+      - name: 📥 Install dependencies
+        run: |
+          npm ci
+          cd lib && npm ci
+
+      - name: 🔍 Verify package
+        run: |
+          cd lib
+          npm pack --dry-run
+
+      - name: 📦 Publish to NPM
+        run: |
+          cd lib
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: ✅ Verify publication
+        run: |
+          sleep 30  # Wait for NPM to propagate
+          PACKAGE_NAME=$(node -p "require('./lib/package.json').name")
+          PACKAGE_VERSION=$(node -p "require('./lib/package.json').version")
+          npm view $PACKAGE_NAME@$PACKAGE_VERSION
+
+  # 创建GitHub Release
+  create-release:
+    name: 🎉 Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [version-management, build-and-test, publish-npm]
+    if: always() && !cancelled() && needs.build-and-test.result == 'success'
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.version-management.outputs.tag_name || github.ref }}
+
+      - name: 📝 Extract version from tag
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION=${{ needs.version-management.outputs.new_version }}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+
+      - name: 📝 Generate release notes
+        id: release_notes
+        run: |
+          # 从CHANGELOG.md提取当前版本的更改
+          VERSION=${{ steps.version.outputs.version }}
+          
+          # 创建发布说明
+          cat > release_notes.md << EOF
+          ## 🚀 PDCS-Fronted-UI v$VERSION
+          
+          ### 📦 安装方式
+          \`\`\`bash
+          npm install @fbsqual/pdcs-fronted-ui@$VERSION
+          \`\`\`
+          
+          ### 🔗 相关链接
+          - 📚 [文档](https://github.com/fbsqual/PDCS-Fronted-UI#readme)
+          - 🎯 [演示站点](https://pdcs-fronted-ui.vercel.app)
+          - 📦 [NPM包](https://www.npmjs.com/package/@fbsqual/pdcs-fronted-ui)
+          
+          ### 📋 更改内容
+          EOF
+          
+          # 从CHANGELOG.md提取版本更改（如果存在）
+          if [ -f "CHANGELOG.md" ]; then
+            awk "/## \[$VERSION\]/,/## \[/{if(/## \[/ && !/## \[$VERSION\]/) exit; print}" CHANGELOG.md | head -n -1 >> release_notes.md
+          else
+            echo "请查看提交历史了解详细更改。" >> release_notes.md
+          fi
+          
+          echo "Generated release notes:"
+          cat release_notes.md
+
+      - name: 🎉 Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          release_name: 🚀 PDCS-Fronted-UI ${{ steps.version.outputs.tag }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+
+  # 部署文档和演示
+  deploy-docs:
+    name: 📚 Deploy Documentation
+    runs-on: ubuntu-latest
+    needs: [version-management, build-and-test]
+    if: always() && !cancelled() && needs.build-and-test.result == 'success'
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.version-management.outputs.tag_name || github.ref }}
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build application
+        run: npm run build
+
+      - name: 🚀 Deploy to Vercel (Production)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-args: '--prod'
+
+  # 通知
+  notify:
+    name: 📢 Notify Release
+    runs-on: ubuntu-latest
+    needs: [version-management, build-and-test, publish-npm, create-release, deploy-docs]
+    if: always() && !cancelled()
+    steps:
+      - name: 📊 Generate release summary
+        run: |
+          echo "## 🎉 发布摘要" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.build-and-test.result }}" == "success" ]; then
+            echo "✅ 构建和测试: 成功" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ 构建和测试: 失败" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.publish-npm.result }}" == "success" ]; then
+            echo "✅ NPM发布: 成功" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ NPM发布: 失败" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.create-release.result }}" == "success" ]; then
+            echo "✅ GitHub发布: 成功" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ GitHub发布: 失败" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.deploy-docs.result }}" == "success" ]; then
+            echo "✅ 文档部署: 成功" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ 文档部署: 失败" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: 🎉 Success notification
+        if: needs.build-and-test.result == 'success' && needs.publish-npm.result == 'success'
+        run: |
+          echo "🎉 发布成功完成!" >> $GITHUB_STEP_SUMMARY
+          echo "📦 新版本已发布到NPM" >> $GITHUB_STEP_SUMMARY
+          echo "🌟 GitHub Release已创建" >> $GITHUB_STEP_SUMMARY
+          echo "📚 文档已更新" >> $GITHUB_STEP_SUMMARY

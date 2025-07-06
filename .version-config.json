@@ -1,0 +1,134 @@
+{
+  "name": "PDCS-Fronted-UI",
+  "description": "Version management configuration for PDCS-Fronted-UI framework",
+  "repository": "https://github.com/fbsqual/PDCS-Fronted-UI",
+  "versioning": {
+    "strategy": "semantic",
+    "format": "x.y.z",
+    "prerelease": {
+      "enabled": true,
+      "identifiers": ["alpha", "beta", "rc"]
+    }
+  },
+  "changelog": {
+    "enabled": true,
+    "format": "keepachangelog",
+    "sections": {
+      "breaking": "💥 Breaking Changes",
+      "features": "✨ New Features",
+      "fixes": "🐛 Bug Fixes",
+      "docs": "📚 Documentation",
+      "maintenance": "🔧 Maintenance",
+      "performance": "⚡ Performance",
+      "security": "🔒 Security",
+      "ui": "🎨 UI/UX"
+    }
+  },
+  "migrations": {
+    "enabled": true,
+    "directory": "./migrations",
+    "autoGenerate": true,
+    "backupBeforeMigration": true
+  },
+  "compatibility": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0",
+    "react": ">=18.0.0",
+    "next": ">=14.0.0"
+  },
+  "breaking_changes": {
+    "major_version_threshold": 1,
+    "notification_required": true,
+    "migration_guide_required": true
+  },
+  "release": {
+    "branches": ["main"],
+    "pre_release_branches": ["develop", "beta"],
+    "auto_tag": true,
+    "auto_publish": false,
+    "npm_registry": "https://registry.npmjs.org/"
+  },
+  "validation": {
+    "require_tests": true,
+    "require_docs": true,
+    "require_changelog": true,
+    "min_test_coverage": 80
+  },
+  "notifications": {
+    "slack_webhook": null,
+    "email_list": [],
+    "github_releases": true
+  },
+  "backup": {
+    "enabled": true,
+    "retention_days": 30,
+    "include_node_modules": false
+  },
+  "dependencies": {
+    "track_updates": true,
+    "auto_update_patch": false,
+    "auto_update_minor": false,
+    "security_updates": true
+  },
+  "environments": {
+    "development": {
+      "auto_version": false,
+      "pre_release": true
+    },
+    "staging": {
+      "auto_version": true,
+      "pre_release": true
+    },
+    "production": {
+      "auto_version": true,
+      "pre_release": false,
+      "require_approval": true
+    }
+  },
+  "hooks": {
+    "pre_version": [
+      "npm run lint",
+      "npm run test",
+      "npm run type-check"
+    ],
+    "post_version": [
+      "npm run build",
+      "git add .",
+      "git commit -m \"chore: update version to $VERSION\""
+    ],
+    "pre_publish": [
+      "npm run build",
+      "npm run test:coverage"
+    ],
+    "post_publish": [
+      "echo \"✅ Version $VERSION published successfully\""
+    ]
+  },
+  "templates": {
+    "migration": "./templates/migration.template.js",
+    "changelog_entry": "./templates/changelog-entry.template.md",
+    "release_notes": "./templates/release-notes.template.md"
+  },
+  "integrations": {
+    "github": {
+      "enabled": true,
+      "auto_create_release": true,
+      "release_notes_from_changelog": true
+    },
+    "npm": {
+      "enabled": true,
+      "registry": "https://registry.npmjs.org/",
+      "access": "public"
+    },
+    "docker": {
+      "enabled": false,
+      "registry": "docker.io",
+      "auto_build": false
+    }
+  },
+  "metadata": {
+    "created": "2024-12-30",
+    "last_updated": "2024-12-30",
+    "config_version": "1.0.0"
+  }
+}

@@ -314,10 +314,23 @@ describe('Button', () => {
 
 ## 📚 更多文档
 
-- [组件库文档](./docs/components.md)
-- [API 文档](./docs/api.md)
-- [部署指南](./docs/deployment.md)
-- [贡献指南](./docs/contributing.md)
+### 🚀 快速开始
+- [项目脚手架文档](./docs/PROJECT_SCAFFOLDING.md) - 详细的项目生成和管理指南
+- [组件库文档](./docs/components.md) - 组件使用指南
+- [API 文档](./docs/api.md) - 完整的 API 参考
+
+### 🧪 测试和质量保证
+- [测试指南](./docs/TESTING_AND_QUALITY.md) - 完整的测试和质量保证体系
+- [配置管理](./docs/CONFIGURATION_MANAGEMENT.md) - 配置管理和环境隔离
+
+### 🔄 升级和迁移
+- [升级指南](./docs/UPGRADE_GUIDE.md) - 版本升级详细指南
+- [迁移指南](./docs/MIGRATION_GUIDE.md) - 项目迁移完整流程
+- [API变更](./docs/API_CHANGES.md) - API变更记录和说明
+
+### 📦 部署和开发
+- [部署指南](./docs/deployment.md) - 生产环境部署
+- [贡献指南](./docs/contributing.md) - 如何参与项目开发
 
 ## 🤝 贡献
 
