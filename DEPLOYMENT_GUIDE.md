@@ -1,6 +1,6 @@
-# 🚀 PDCS Frontend 部署指南
+# 🚀 PDCS-UI 部署指南
 
-本指南将帮助您将PDCS Frontend项目部署到GitHub并设置自动化部署。
+本指南将帮助您将PDCS-UI项目部署到GitHub并设置自动化部署。
 
 ## 📋 部署前准备
 

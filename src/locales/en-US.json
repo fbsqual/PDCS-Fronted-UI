@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "PDCS Frontend",
+    "title": "PDCS-UI Framework",
     "description": "Modern frontend application built with Next.js and Tailwind"
   },
   "navigation": {

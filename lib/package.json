@@ -1,5 +1,5 @@
 {
-  "name": "@your-org/pdcs-ui",
+  "name": "@fbsqual/pdcs-ui",
   "version": "1.0.0",
   "description": "PDCS UI Framework - A comprehensive React component library",
   "main": "dist/index.js",

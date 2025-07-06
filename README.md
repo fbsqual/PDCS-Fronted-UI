@@ -1,15 +1,15 @@
-# 🚀 PDCS Frontend Framework
+# 🚀 PDCS-UI Framework
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.0-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-一个现代化的 Next.js 前端框架，集成了完整的UI组件库、主题系统、国际化、图表组件、数据库操作和PWA功能。
+一个现代化的 Next.js UI 框架，集成了完整的UI组件库、主题系统、国际化、图表组件、数据库操作和PWA功能。
 
 ## 📸 预览
 
-![PDCS Frontend Preview](https://via.placeholder.com/800x400/1f2937/ffffff?text=PDCS+Frontend+Framework)
+![PDCS-UI Preview](https://via.placeholder.com/800x400/1f2937/ffffff?text=PDCS-UI+Framework)
 
 > 🌟 **在线演示**: [https://your-demo-url.vercel.app](https://your-demo-url.vercel.app)
 

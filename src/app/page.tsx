@@ -24,7 +24,7 @@ export default function HomePage() {
       <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            {t('welcome.title', 'PDCS Frontend')}
+            {t('welcome.title', 'PDCS-UI')}
           </h1>
           <p className="text-muted-foreground">
             {t('welcome.description', '基于Next.js和Tailwind的现代化前端应用')}

@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "PDCS 前端应用",
+    "title": "PDCS-UI 框架",
     "description": "基于Next.js和Tailwind的现代化前端应用"
   },
   "navigation": {

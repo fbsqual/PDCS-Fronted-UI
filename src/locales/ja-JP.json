@@ -1,6 +1,6 @@
 {
   "welcome": {
-    "title": "PDCS フロントエンド",
+    "title": "PDCS-UI フレームワーク",
     "description": "Next.jsとTailwindで構築されたモダンなフロントエンドアプリケーション"
   },
   "navigation": {
