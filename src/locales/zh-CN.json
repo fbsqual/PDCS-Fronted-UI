@@ -1,0 +1,151 @@
+{
+  "welcome": {
+    "title": "PDCS 前端应用",
+    "description": "基于Next.js和Tailwind的现代化前端应用"
+  },
+  "navigation": {
+    "home": "首页",
+    "dashboard": "仪表板",
+    "charts": "图表",
+    "settings": "设置",
+    "about": "关于"
+  },
+  "demo": {
+    "counter": {
+      "title": "计数器演示",
+      "description": "展示React状态管理",
+      "current": "当前计数",
+      "increment": "增加",
+      "decrement": "减少",
+      "reset": "重置"
+    },
+    "theme": {
+      "title": "主题系统",
+      "description": "支持亮色/暗色模式切换",
+      "colors": "主题颜色展示",
+      "light": "亮色模式",
+      "dark": "暗色模式",
+      "system": "跟随系统"
+    },
+    "i18n": {
+      "title": "国际化",
+      "description": "支持多语言切换",
+      "current": "当前语言",
+      "switch": "切换语言"
+    },
+    "charts": {
+      "title": "图表演示",
+      "description": "集成多种图表组件",
+      "line": "折线图",
+      "bar": "柱状图",
+      "pie": "饼图",
+      "area": "面积图"
+    },
+    "database": {
+      "title": "本地数据库",
+      "description": "SQLite本地存储演示",
+      "add": "添加数据",
+      "delete": "删除",
+      "edit": "编辑",
+      "save": "保存",
+      "cancel": "取消"
+    }
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息",
+    "confirm": "确认",
+    "cancel": "取消",
+    "ok": "确定",
+    "yes": "是",
+    "no": "否",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "add": "添加",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "refresh": "刷新",
+    "close": "关闭",
+    "open": "打开",
+    "copy": "复制",
+    "paste": "粘贴",
+    "cut": "剪切",
+    "undo": "撤销",
+    "redo": "重做",
+    "select_all": "全选",
+    "clear": "清空",
+    "reset": "重置",
+    "submit": "提交",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "finish": "完成"
+  },
+  "form": {
+    "required": "此字段为必填项",
+    "invalid_email": "请输入有效的邮箱地址",
+    "invalid_phone": "请输入有效的手机号码",
+    "password_too_short": "密码长度至少为8位",
+    "passwords_not_match": "两次输入的密码不一致",
+    "invalid_url": "请输入有效的URL地址",
+    "invalid_number": "请输入有效的数字",
+    "min_length": "最少输入{{min}}个字符",
+    "max_length": "最多输入{{max}}个字符",
+    "min_value": "最小值为{{min}}",
+    "max_value": "最大值为{{max}}"
+  },
+  "api": {
+    "loading": "请求中...",
+    "success": "请求成功",
+    "error": "请求失败",
+    "timeout": "请求超时",
+    "network_error": "网络错误",
+    "server_error": "服务器错误",
+    "unauthorized": "未授权访问",
+    "forbidden": "访问被禁止",
+    "not_found": "资源未找到",
+    "conflict": "数据冲突",
+    "validation_error": "数据验证失败"
+  },
+  "debug": {
+    "title": "调试面板",
+    "api_logs": "API日志",
+    "system_info": "系统信息",
+    "performance": "性能监控",
+    "storage": "存储信息",
+    "clear_logs": "清空日志",
+    "export_logs": "导出日志",
+    "toggle": "切换显示",
+    "minimize": "最小化",
+    "maximize": "最大化",
+    "close": "关闭"
+  },
+  "pwa": {
+    "install": "安装应用",
+    "update_available": "发现新版本",
+    "update_now": "立即更新",
+    "offline": "离线模式",
+    "online": "在线模式",
+    "sync": "同步数据"
+  },
+  "footer": {
+    "copyright": "© 2024 PDCS Frontend. 保留所有权利。"
+  },
+  "nav": {
+    "demo": "组件展示"
+  },
+  "error": {
+    "page_not_found": "页面未找到",
+    "server_error": "服务器错误",
+    "network_error": "网络连接错误",
+    "unknown_error": "未知错误",
+    "try_again": "重试",
+    "go_home": "返回首页",
+    "report_issue": "报告问题"
+  }
+}

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDCS Frontend - 项目演示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/recharts@2.8.0/umd/Recharts.js"></script>
+    <script src="https://unpkg.com/lucide-react@0.294.0/dist/umd/lucide-react.js"></script>
+    <style>
+        :root {
+            --primary: 222.2 84% 4.9%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222.2 84% 4.9%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96%;
+            --accent-foreground: 222.2 84% 4.9%;
+            --border: 214.3 31.8% 91.4%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+        }
+        
+        .dark {
+            --primary: 210 40% 98%;
+            --primary-foreground: 222.2 84% 4.9%;
+            --secondary: 222.2 84% 4.9%;
+            --secondary-foreground: 210 40% 98%;
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --accent: 217.2 32.6% 17.5%;
+            --accent-foreground: 210 40% 98%;
+            --border: 217.2 32.6% 17.5%;
+            --card: 222.2 84% 4.9%;
+            --card-foreground: 210 40% 98%;
+        }
+        
+        .bg-primary { background-color: hsl(var(--primary)); }
+        .bg-secondary { background-color: hsl(var(--secondary)); }
+        .bg-muted { background-color: hsl(var(--muted)); }
+        .bg-accent { background-color: hsl(var(--accent)); }
+        .bg-card { background-color: hsl(var(--card)); }
+        .text-primary { color: hsl(var(--primary)); }
+        .text-muted-foreground { color: hsl(var(--muted-foreground)); }
+        .text-card-foreground { color: hsl(var(--card-foreground)); }
+        .border-border { border-color: hsl(var(--border)); }
+    </style>
+</head>
+<body class="bg-background text-foreground">
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } = Recharts;
+        
+        // 模拟数据
+        const chartData = [
+            { name: '1月', value: 400, sales: 240 },
+            { name: '2月', value: 300, sales: 139 },
+            { name: '3月', value: 200, sales: 980 },
+            { name: '4月', value: 278, sales: 390 },
+            { name: '5月', value: 189, sales: 480 },
+            { name: '6月', value: 239, sales: 380 }
+        ];
+        
+        const pieData = [
+            { name: 'Desktop', value: 400, color: '#0088FE' },
+            { name: 'Mobile', value: 300, color: '#00C49F' },
+            { name: 'Tablet', value: 300, color: '#FFBB28' },
+            { name: 'Other', value: 200, color: '#FF8042' }
+        ];
+        
+        // 按钮组件
+        const Button = ({ children, onClick, variant = 'default', className = '', ...props }) => {
+            const baseClasses = 'px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+            const variants = {
+                default: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+                outline: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-blue-500',
+                secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500'
+            };
+            
+            return (
+                <button 
+                    className={`${baseClasses} ${variants[variant]} ${className}`}
+                    onClick={onClick}
+                    {...props}
+                >
+                    {children}
+                </button>
+            );
+        };
+        
+        // 卡片组件
+        const Card = ({ children, className = '' }) => (
+            <div className={`bg-white rounded-lg border border-gray-200 shadow-sm ${className}`}>
+                {children}
+            </div>
+        );
+        
+        const CardHeader = ({ children }) => (
+            <div className="p-6 pb-4">{children}</div>
+        );
+        
+        const CardTitle = ({ children }) => (
+            <h3 className="text-lg font-semibold text-gray-900">{children}</h3>
+        );
+        
+        const CardDescription = ({ children }) => (
+            <p className="text-sm text-gray-600 mt-1">{children}</p>
+        );
+        
+        const CardContent = ({ children }) => (
+            <div className="p-6 pt-0">{children}</div>
+        );
+        
+        // 图表演示组件
+        const ChartDemo = () => {
+            const [chartType, setChartType] = useState('line');
+            
+            const renderChart = () => {
+                switch (chartType) {
+                    case 'line':
+                        return (
+                            <ResponsiveContainer width="100%" height={300}>
+                                <LineChart data={chartData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        );
+                    case 'bar':
+                        return (
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={chartData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Bar dataKey="value" fill="#8884d8" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        );
+                    case 'pie':
+                        return (
+                            <ResponsiveContainer width="100%" height={300}>
+                                <PieChart>
+                                    <Pie
+                                        data={pieData}
+                                        cx="50%"
+                                        cy="50%"
+                                        labelLine={false}
+                                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                        outerRadius={80}
+                                        fill="#8884d8"
+                                        dataKey="value"
+                                    >
+                                        {pieData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        );
+                    default:
+                        return null;
+                }
+            };
+            
+            return (
+                <div className="space-y-4">
+                    <div className="flex space-x-2">
+                        <Button 
+                            variant={chartType === 'line' ? 'default' : 'outline'}
+                            onClick={() => setChartType('line')}
+                        >
+                            折线图
+                        </Button>
+                        <Button 
+                            variant={chartType === 'bar' ? 'default' : 'outline'}
+                            onClick={() => setChartType('bar')}
+                        >
+                            柱状图
+                        </Button>
+                        <Button 
+                            variant={chartType === 'pie' ? 'default' : 'outline'}
+                            onClick={() => setChartType('pie')}
+                        >
+                            饼图
+                        </Button>
+                    </div>
+                    {renderChart()}
+                </div>
+            );
+        };
+        
+        // 主应用组件
+        const App = () => {
+            const [count, setCount] = useState(0);
+            const [theme, setTheme] = useState('light');
+            const [language, setLanguage] = useState('zh-CN');
+            
+            const toggleTheme = () => {
+                setTheme(theme === 'light' ? 'dark' : 'light');
+                document.documentElement.classList.toggle('dark');
+            };
+            
+            const translations = {
+                'zh-CN': {
+                    title: 'PDCS Frontend 演示',
+                    description: '基于Next.js和Tailwind的现代化前端应用',
+                    counter: '计数器演示',
+                    theme: '主题系统',
+                    i18n: '国际化',
+                    charts: '图表演示',
+                    database: '本地数据库',
+                    increment: '增加',
+                    decrement: '减少',
+                    reset: '重置',
+                    current: '当前计数'
+                },
+                'en-US': {
+                    title: 'PDCS Frontend Demo',
+                    description: 'Modern frontend application based on Next.js and Tailwind',
+                    counter: 'Counter Demo',
+                    theme: 'Theme System',
+                    i18n: 'Internationalization',
+                    charts: 'Charts Demo',
+                    database: 'Local Database',
+                    increment: 'Increment',
+                    decrement: 'Decrement',
+                    reset: 'Reset',
+                    current: 'Current Count'
+                }
+            };
+            
+            const t = (key) => translations[language][key] || key;
+            
+            return (
+                <div className="min-h-screen bg-gray-50 py-8">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        {/* 页面头部 */}
+                        <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0 mb-8">
+                            <div>
+                                <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
+                                <p className="text-gray-600">{t('description')}</p>
+                            </div>
+                            
+                            <div className="flex items-center space-x-2">
+                                <Button 
+                                    variant="outline"
+                                    onClick={() => setLanguage(language === 'zh-CN' ? 'en-US' : 'zh-CN')}
+                                >
+                                    {language === 'zh-CN' ? 'EN' : '中文'}
+                                </Button>
+                                <Button variant="outline" onClick={toggleTheme}>
+                                    {theme === 'light' ? '🌙' : '☀️'}
+                                </Button>
+                            </div>
+                        </div>
+                        
+                        {/* 功能演示区域 */}
+                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+                            {/* 计数器演示 */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>{t('counter')}</CardTitle>
+                                    <CardDescription>展示React状态管理</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-center mb-4">
+                                        <div className="text-4xl font-bold text-blue-600">{count}</div>
+                                        <p className="text-sm text-gray-600">{t('current')}</p>
+                                    </div>
+                                    <div className="flex space-x-2">
+                                        <Button onClick={() => setCount(count + 1)} className="flex-1">
+                                            {t('increment')}
+                                        </Button>
+                                        <Button variant="outline" onClick={() => setCount(count - 1)} className="flex-1">
+                                            {t('decrement')}
+                                        </Button>
+                                        <Button variant="secondary" onClick={() => setCount(0)}>
+                                            {t('reset')}
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            
+                            {/* 主题演示 */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>{t('theme')}</CardTitle>
+                                    <CardDescription>支持亮色/暗色模式切换</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid grid-cols-2 gap-2 mb-4">
+                                        <div className="h-8 rounded bg-blue-500"></div>
+                                        <div className="h-8 rounded bg-green-500"></div>
+                                        <div className="h-8 rounded bg-yellow-500"></div>
+                                        <div className="h-8 rounded bg-red-500"></div>
+                                    </div>
+                                    <p className="text-sm text-gray-600">主题颜色展示</p>
+                                </CardContent>
+                            </Card>
+                            
+                            {/* 国际化演示 */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>{t('i18n')}</CardTitle>
+                                    <CardDescription>支持多语言切换</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-2">
+                                        <p className="text-sm">
+                                            <span className="font-medium">中文：</span>你好，世界！
+                                        </p>
+                                        <p className="text-sm">
+                                            <span className="font-medium">English：</span>Hello, World!
+                                        </p>
+                                        <p className="text-sm">
+                                            <span className="font-medium">日本語：</span>こんにちは、世界！
+                                        </p>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+                        
+                        {/* 图表演示 */}
+                        <Card className="mb-8">
+                            <CardHeader>
+                                <CardTitle>{t('charts')}</CardTitle>
+                                <CardDescription>集成多种图表组件</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <ChartDemo />
+                            </CardContent>
+                        </Card>
+                        
+                        {/* 项目特性 */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>项目特性</CardTitle>
+                                <CardDescription>PDCS Frontend 的核心功能</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium">🎨 UI 组件库</h4>
+                                        <p className="text-sm text-gray-600">完整的基础组件集合</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium">📊 图表组件</h4>
+                                        <p className="text-sm text-gray-600">基于 Recharts 的数据可视化</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium">🌍 国际化系统</h4>
+                                        <p className="text-sm text-gray-600">支持中英日三语言</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium">🎭 主题系统</h4>
+                                        <p className="text-sm text-gray-600">亮色/暗色主题切换</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium">💾 数据库管理</h4>
+                                        <p className="text-sm text-gray-600">SQLite 客户端数据库</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium">🔌 API 客户端</h4>
+                                        <p className="text-sm text-gray-600">统一的 HTTP 请求管理</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium">📱 PWA 功能</h4>
+                                        <p className="text-sm text-gray-600">渐进式 Web 应用特性</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="font-medium">🧪 测试框架</h4>
+                                        <p className="text-sm text-gray-600">Jest + React Testing Library</p>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                        
+                        {/* 页脚 */}
+                        <footer className="mt-16 border-t pt-8">
+                            <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
+                                <p className="text-sm text-gray-600">
+                                    © 2024 PDCS Frontend. All rights reserved.
+                                </p>
+                                <div className="flex items-center space-x-4 text-sm text-gray-600">
+                                    <span>Next.js 14</span>
+                                    <span>•</span>
+                                    <span>React 18</span>
+                                    <span>•</span>
+                                    <span>TypeScript</span>
+                                    <span>•</span>
+                                    <span>Tailwind CSS</span>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            );
+        };
+        
+        // 渲染应用
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</body>
+</html>

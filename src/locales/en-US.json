@@ -1,0 +1,151 @@
+{
+  "welcome": {
+    "title": "PDCS Frontend",
+    "description": "Modern frontend application built with Next.js and Tailwind"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "charts": "Charts",
+    "settings": "Settings",
+    "about": "About"
+  },
+  "demo": {
+    "counter": {
+      "title": "Counter Demo",
+      "description": "Demonstrates React state management",
+      "current": "Current Count",
+      "increment": "Increment",
+      "decrement": "Decrement",
+      "reset": "Reset"
+    },
+    "theme": {
+      "title": "Theme System",
+      "description": "Support light/dark mode switching",
+      "colors": "Theme colors showcase",
+      "light": "Light Mode",
+      "dark": "Dark Mode",
+      "system": "Follow System"
+    },
+    "i18n": {
+      "title": "Internationalization",
+      "description": "Support multiple language switching",
+      "current": "Current Language",
+      "switch": "Switch Language"
+    },
+    "charts": {
+      "title": "Charts Demo",
+      "description": "Integrated various chart components",
+      "line": "Line Chart",
+      "bar": "Bar Chart",
+      "pie": "Pie Chart",
+      "area": "Area Chart"
+    },
+    "database": {
+      "title": "Local Database",
+      "description": "SQLite local storage demo",
+      "add": "Add Data",
+      "delete": "Delete",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "close": "Close",
+    "open": "Open",
+    "copy": "Copy",
+    "paste": "Paste",
+    "cut": "Cut",
+    "undo": "Undo",
+    "redo": "Redo",
+    "select_all": "Select All",
+    "clear": "Clear",
+    "reset": "Reset",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "finish": "Finish"
+  },
+  "form": {
+    "required": "This field is required",
+    "invalid_email": "Please enter a valid email address",
+    "invalid_phone": "Please enter a valid phone number",
+    "password_too_short": "Password must be at least 8 characters",
+    "passwords_not_match": "Passwords do not match",
+    "invalid_url": "Please enter a valid URL",
+    "invalid_number": "Please enter a valid number",
+    "min_length": "Minimum {{min}} characters required",
+    "max_length": "Maximum {{max}} characters allowed",
+    "min_value": "Minimum value is {{min}}",
+    "max_value": "Maximum value is {{max}}"
+  },
+  "api": {
+    "loading": "Loading...",
+    "success": "Request successful",
+    "error": "Request failed",
+    "timeout": "Request timeout",
+    "network_error": "Network error",
+    "server_error": "Server error",
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Access forbidden",
+    "not_found": "Resource not found",
+    "conflict": "Data conflict",
+    "validation_error": "Data validation failed"
+  },
+  "debug": {
+    "title": "Debug Panel",
+    "api_logs": "API Logs",
+    "system_info": "System Info",
+    "performance": "Performance",
+    "storage": "Storage Info",
+    "clear_logs": "Clear Logs",
+    "export_logs": "Export Logs",
+    "toggle": "Toggle Display",
+    "minimize": "Minimize",
+    "maximize": "Maximize",
+    "close": "Close"
+  },
+  "pwa": {
+    "install": "Install App",
+    "update_available": "Update Available",
+    "update_now": "Update Now",
+    "offline": "Offline Mode",
+    "online": "Online Mode",
+    "sync": "Sync Data"
+  },
+  "footer": {
+    "copyright": "© 2024 PDCS Frontend. All rights reserved."
+  },
+  "nav": {
+    "demo": "Component Demo"
+  },
+  "error": {
+    "page_not_found": "Page Not Found",
+    "server_error": "Server Error",
+    "network_error": "Network Connection Error",
+    "unknown_error": "Unknown Error",
+    "try_again": "Try Again",
+    "go_home": "Go Home",
+    "report_issue": "Report Issue"
+  }
+}
