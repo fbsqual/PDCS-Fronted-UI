@@ -11,8 +11,8 @@ const inter = Inter({ subsets: ['latin'] })
 // 元数据配置
 export const metadata: Metadata = {
   title: {
-    default: 'PDCS-UI',
-    template: '%s | PDCS-UI'
+    default: 'PDCS-Fronted-UI',
+    template: '%s | PDCS-Fronted-UI'
   },
   description: '基于Next.js和Tailwind的现代化前端应用',
   keywords: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'PWA'],

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# PDCS-UI GitHub 部署脚本
+# PDCS-Fronted-UI GitHub 部署脚本
 # 使用方法: ./deploy-to-github.sh <github-username> <repository-name>
 
 GITHUB_USERNAME=$1
@@ -9,7 +9,7 @@ REPO_NAME=$2
 if [ -z "$GITHUB_USERNAME" ] || [ -z "$REPO_NAME" ]; then
     echo "❌ 请提供GitHub用户名和仓库名"
     echo "使用方法: ./deploy-to-github.sh <github-username> <repository-name>"
-    echo "示例: ./deploy-to-github.sh myusername pdcs-ui"
+    echo "示例: ./deploy-to-github.sh myusername PDCS-Fronted-UI"
     exit 1
 fi
 

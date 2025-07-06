@@ -1,6 +1,6 @@
-# 🚀 PDCS-UI 部署指南
+# 🚀 PDCS-Fronted-UI 部署指南
 
-本指南将帮助您将PDCS-UI项目部署到GitHub并设置自动化部署。
+本指南将帮助您将PDCS-Fronted-UI项目部署到GitHub并设置自动化部署。
 
 ## 📋 部署前准备
 
@@ -28,7 +28,7 @@ npm run lint
 
 1. **在GitHub上创建新仓库**
    - 访问 [GitHub](https://github.com/new)
-   - 创建名为 `pdcs-ui` 的新仓库
+   - 创建名为 `PDCS-Fronted-UI` 的新仓库
    - **不要**初始化README、.gitignore或LICENSE（我们已经有了）
 
 2. **运行部署脚本**
@@ -37,13 +37,13 @@ npm run lint
    chmod +x scripts/deploy-to-github.sh
    
    # 执行部署（替换为您的GitHub用户名）
-   ./scripts/deploy-to-github.sh your-username pdcs-ui
+   ./scripts/deploy-to-github.sh your-username PDCS-Fronted-UI
    ```
 
 3. **Windows用户手动部署**
    ```bash
    # 添加远程仓库
-   git remote add origin https://github.com/your-username/pdcs-ui.git
+   git remote add origin https://github.com/your-username/PDCS-Fronted-UI.git
    
    # 重命名主分支
    git branch -m master main
@@ -57,7 +57,7 @@ npm run lint
 
 ```bash
 # 1. 添加远程仓库
-git remote add origin https://github.com/your-username/pdcs-ui.git
+git remote add origin https://github.com/your-username/PDCS-Fronted-UI.git
 
 # 2. 推送主分支
 git push -u origin main
@@ -74,7 +74,7 @@ git push -u origin develop
    - 访问 [Vercel](https://vercel.com)
    - 使用GitHub账号登录
    - 点击 "New Project"
-   - 选择您的 `pdcs-ui` 仓库
+   - 选择您的 `PDCS-Fronted-UI` 仓库
 
 2. **配置项目**
    ```
@@ -148,8 +148,8 @@ netlify deploy --prod --dir=.next
 
 ```dockerfile
 # Dockerfile 已包含在项目中
-docker build -t pdcs-ui .
-docker run -p 3000:3000 pdcs-ui
+docker build -t pdcs-fronted-ui .
+docker run -p 3000:3000 pdcs-fronted-ui
 ```
 
 ### 3. 静态导出
@@ -226,8 +226,8 @@ npm run build
 ### 获取帮助
 
 - 📚 查看 [项目文档](./docs/)
-- 🐛 提交 [GitHub Issues](https://github.com/fbsqual/pdcs-ui/issues)
-- 💬 参与 [GitHub Discussions](https://github.com/fbsqual/pdcs-ui/discussions)
+- 🐛 提交 [GitHub Issues](https://github.com/fbsqual/PDCS-Fronted-UI/issues)
+- 💬 参与 [GitHub Discussions](https://github.com/fbsqual/PDCS-Fronted-UI/discussions)
 
 ## 🎉 部署完成
 
